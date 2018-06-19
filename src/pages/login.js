@@ -4,8 +4,6 @@ import {
   View,
   Text,
   FlatList,
-  TimePickerAndroid,
-  DatePickerAndroid,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';

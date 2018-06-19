@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import ListData from './ListData.js'
+import listdata from './ListData.js'
 
 export default combineReducers({
-    ListData,
+    listdata,
 });

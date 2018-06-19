@@ -12,7 +12,6 @@ import { scale, getDeviceWidth, moderateScale, verticalScale } from '../config/s
 class loginListView extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.user);
   }
   render() {
     return (
@@ -24,8 +23,8 @@ class loginListView extends Component {
         <TouchableOpacity style={{flex:1,justifyContent:'center'}} activeOpacity={0.6}>
             <View style={{flex:0.8,flexDirection:'row',justifyContent:'center'}}>
                 <View style={{flex:0.9}}>
-                    <Text style={{fontSize:moderateScale(20)}}>{}</Text>
-                    <Text style={{fontSize:moderateScale(12),marginLeft:1}}>email address</Text>
+                    <Text style={{fontSize:moderateScale(20)}}>{this.props.user.name}</Text>
+                    <Text style={{fontSize:moderateScale(12),marginLeft:1}}>{this.props.user.email}</Text>
                 </View>
             </View>
         </TouchableOpacity>
