@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-  FlatList,
+  Image,
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
@@ -16,12 +16,12 @@ import ImagePicker from 'react-native-image-picker';
 import CryptoJS from 'crypto-js';
 import ShortId from 'shortid';
 import { scale, getDeviceWidth, moderateScale, verticalScale, getDeviceHeight } from '../config/sizeHelper'
-import { saveListItem, getAllListItem, registerUser, getAllUsers } from '../realmDB/db';
+import { registerUser } from '../realmDB/user.js';
 import Header from '../components/headers/header'
 import LoginListView from '../components/loginListView.js'
 import NewAccount from '../components/newAccount.js'
 import {validateEmail} from '../config/validation.js'
-import { dropDownAlert } from '../redux/reduxDropDownAlert';
+import { dropDownAlert } from '../config/dropDownAlert';
 
 class Register extends Component {
   constructor(props) {
@@ -42,10 +42,9 @@ class Register extends Component {
           path: 'images'
         }
       };
-      
+      let self =this;
       ImagePicker.showImagePicker(options, (response) => {
-        console.log('Response = ', response);
-      
+        console.log(response);
         if (response.didCancel) {
           console.log('User cancelled image picker');
         }
@@ -53,7 +52,9 @@ class Register extends Component {
           console.log('ImagePicker Error: ', response.error);
         }
         else {
-          let source = { uri: response.uri };
+          self.setState({
+            uri : response.uri
+          })
         }
       });
   }
@@ -118,12 +119,7 @@ class Register extends Component {
         avatar      :       this.state.uri,
         password    :       CryptoJS.AES.encrypt(this.state.password, 'smart_is_cool').toString(),
     }
-    registerUser(user);
-    // dropDownAlert({
-    //     type:'success',
-    //     title:'Welcome '+this.state.name,
-    //     message:'Feel free to use our App'
-    // })
+    this.props.registerUser(user);
   }
   render() {
     return (
@@ -140,7 +136,10 @@ class Register extends Component {
             <View style={{height:getDeviceHeight()*0.6,justifyContent:'space-around'}}>
                 <View style={{flex:0.15,flexDirection:'row',alignItems:'flex-end'}}>
                     <TouchableOpacity activeOpacity={0.6} style={{justifyContent:'center',alignItems:'center',flexDirection:'row',borderRadius:scale(60),height:scale(60),width:scale(60),backgroundColor:'#c3c3c3'}} onPress={this._showImagePicker}>
-                       <Icon name="camera" size={30} color="#ffffff"/>
+                       { this.state.uri ? 
+                       <Image source={{uri:this.state.uri}} style={{width:scale(60),height:scale(60),borderRadius:scale(60)}}/>
+                       :
+                       <Icon name="camera" size={30} color="#ffffff"/>}
                     </TouchableOpacity>
                     <View style={{flex:1,justifyContent:'center'}} activeOpacity={0.6}>
                         <View style={{flex:0.8,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
@@ -215,7 +214,7 @@ class Register extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+    registerUser : (user)=>{dispatch(registerUser(user))}
   }
 }
 const mapStateToProps = (state) => {

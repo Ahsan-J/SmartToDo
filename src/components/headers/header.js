@@ -16,15 +16,11 @@ import { getDeviceHeight } from '../../config/sizeHelper';
 // textColor = to handle Text color
 // iconColor = to handle Icon Color
 // noFlex = to handle between flex or height
+
 class HeaderWithTitle extends Component {
 
   constructor(props) {
     super(props);
-    this.onBackPress = this.onBackPress.bind(this);
-  }
-
-  onBackPress (){
-    this.props.callBack();
   }
 
   render() {
@@ -35,12 +31,12 @@ class HeaderWithTitle extends Component {
     let title = this.props.title || "" 
 
     return (
-      <View style={[{flexDirection:'row',backgroundColor : bgColor },this.props.noFlex?{height:getDeviceHeight()*0.1}:{flex:0.1}]}>
-        { this.props.callBack
+      <View style={[{flexDirection:'row',backgroundColor : bgColor },this.props.noFlex?{height:getDeviceHeight()*0.09}:{flex:0.1}]}>
+        { this.props.callBack && this.props.iconName
           ?
-          <TouchableOpacity style={styles.menuBtnContainer} onPress={this.onBackPress}>
+          <TouchableOpacity style={styles.menuBtnContainer} onPress={this.props.callBack}>
             <View style={[{flex:1}, styles.center]}>
-              <Icon name="arrow-left" size={20} color={iconColor}/>
+              <Icon name={this.props.iconName} size={25} color={iconColor}/>
             </View>
           </TouchableOpacity>
            : null
@@ -48,14 +44,14 @@ class HeaderWithTitle extends Component {
           <View style={{flex:titleContainer, justifyContent:'center'}} >
            <Text allowFontScaling={false} style={[styles.title, {color:textColor}]}> {title}</Text>
           </View>
-          { this.props.callBackRight
+          { this.props.callBackRight && this.props.iconNameRight
             ?
-                <TouchableOpacity style={styles.menuBtnContainer} onPress={this.onBackPress}>
+                <TouchableOpacity style={styles.menuBtnContainer} onPress={this.props.callBackRight}>
                     <View style={[{flex:1}, styles.center]}>
-                        <Icon name="cog" size={20} color={iconColor}/>
+                        <Icon name={this.props.iconNameRight} size={25} color={iconColor}/>
                     </View>
                 </TouchableOpacity>
-            : null
+            : <View style={styles.menuBtnContainer}></View>
           }
       </View>
     );

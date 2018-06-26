@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { scale, getDeviceWidth, moderateScale, verticalScale } from '../config/sizeHelper'
-import { saveListItem, getAllListItem, registerUser, getAllUsers } from '../realmDB/db';
+import { getAllUsers } from '../realmDB/user.js';
 import Header from '../components/headers/header'
 import LoginListView from '../components/loginListView.js'
 import NewAccount from '../components/newAccount.js'
@@ -16,14 +16,9 @@ import NewAccount from '../components/newAccount.js'
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      users : []
-    }
   }
   componentDidMount(){
-    this.setState({
-      users : getAllUsers()
-    })
+    this.props.getAllUsers()
   }
   render() {
     return (
@@ -33,11 +28,11 @@ class Login extends Component {
           <View style={{flex:0.85,justifyContent:'center'}}>
             <View style={{flex:0.9}}>
               <FlatList
-                data={this.state.users}
-                ListHeaderComponent={()=>{return <View style={{borderColor:'#c3c3c3'}}><Text style={{fontSize:moderateScale(20)}}>Login to Access Smart Features</Text></View>}}
+                data={this.props.users}
+                ListHeaderComponent={()=>{return <View style={{borderColor:'#c3c3c3',marginBottom:scale(8)}}><Text style={{fontSize:moderateScale(20)}}>Login to Access Smart Features</Text></View>}}
                 renderItem={({item,index}) => <LoginListView user={item}/> }
                 ListFooterComponent={()=>{return <NewAccount/>}}
-                ItemSeparatorComponent={()=>{return <View style={{margin:2}}></View>}}
+                ItemSeparatorComponent={()=>{return <View style={{margin:3}}></View>}}
                 keyExtractor={(item, index) => {return item.id}}
               />
             </View>
@@ -65,12 +60,12 @@ class Login extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+    getAllUsers : ()=>{return dispatch(getAllUsers())}
   }
 }
 const mapStateToProps = (state) => {
   return {
-    
+    users : state.user.users 
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

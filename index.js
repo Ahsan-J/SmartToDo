@@ -9,12 +9,11 @@ import Navigator from './src/navigator';
 import appStore from './src/redux/store.js'
 import {setTopLevelNavigator} from './src/redux/reduxNavigation'
 import {scale} from './src/config/sizeHelper.js'
-// import { initDB } from './src/realmDB/db';
-// import {setGlobalDrawerr} from './src/config/globalDrawer'
-// import DrawerMenu from './src/components/DrawerMenu.js'
-// initDB();
+// import { initDB } from './src/realmDB/user.js';
+import {setGlobalDrawer, open} from './src/config/globalDrawer'
+import DrawerMenu from './src/components/drawerMenu.js'
 import DropdownAlert from 'react-native-dropdownalert';
-import { setTopLevelAlert } from './src/redux/reduxDropDownAlert';
+import { setTopLevelAlert } from './src/config/dropDownAlert';
 
 class SmartToDo extends React.Component{
     componentDidMount(){
@@ -23,15 +22,35 @@ class SmartToDo extends React.Component{
     render(){
         return (
             <Provider store={appStore}>
-                {/* <Drawer ref={drawerRef => {setGlobalDrawerr(drawerRef)}} type="overlay" openDrawerOffset={0.75} content={<DrawerMenu/>} tapToClose={true}> */}
-                    <MenuProvider backHandler={true}>
+                <MenuProvider backHandler={true}>
+                    <Drawer 
+                    ref={drawerRef => {setGlobalDrawer(drawerRef)}} 
+                    type="overlay" 
+                    openDrawerOffset={0.25} 
+                    content={<DrawerMenu/>}
+                    tapToClose={true}
+                    panCloseMask={0.2}
+                    closedDrawerOffset={-3}
+                    styles={drawerStyles}
+                    // disabled={true}
+                    tweenHandler={(ratio) => ({
+                        main: { opacity:(2-ratio)/2 }
+                    })}
+                    >
                         <DropdownAlert ref={alertRef => {setTopLevelAlert(alertRef)}} />
                         <Navigator ref={navigatorRef => {setTopLevelNavigator(navigatorRef)}}/>
-                    </MenuProvider>
-                {/* </Drawer> */}
+                    </Drawer>
+                </MenuProvider>
             </Provider>
         );
     }
 } 
+
+const drawerStyles = {
+    drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3, },
+    main: {paddingLeft: 3,},
+    // drawerOverlay: { zIndex:100 },
+    // mainOverlay: { zIndex:100 },
+}
 
 AppRegistry.registerComponent('SmartToDo', () => SmartToDo);

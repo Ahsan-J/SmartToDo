@@ -1,6 +1,6 @@
 let _drawer;
 
-export function setGlobalDrawerr(drawerRef) {
+export function setGlobalDrawer(drawerRef) {
   _drawer = drawerRef;
 }
 

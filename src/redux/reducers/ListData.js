@@ -1,13 +1,20 @@
-var initialUser={
-    Items:[],
+var initialState={
+    items:[],
 };
-export default function(state = initialUser,action){
+export default function(state = initialState,action){
     switch (action.type){
-        case "SET_LOCAL_LIST":
+        case "SET_LIST":
             return state = {
                 ...state,
-                Items : [...action.data]
+                items : [...action.data]
             };
+        case "SAVE_ITEM":
+            state.items.push(action.data);
+            return state = {
+                ...state,
+                items : [...state.items]
+            }
+            
         default:
             return state;
     }

@@ -44,13 +44,11 @@ export default connect(mapStateToProps, mapDispatchToProps)(Account);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.16,
-        // justifyContent: 'center',
-        // alignItems: 'center',
+        flex: 0.2,
         borderTopWidth:1,
         borderColor:'#c3c3c3',
-        paddingTop:scale(15),
-        marginTop:scale(15),
+        paddingTop:scale(8),
+        marginTop:scale(8),
         flexDirection:'row',
         backgroundColor: '#F5FCFF',
       },

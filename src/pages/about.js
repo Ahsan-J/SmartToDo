@@ -5,8 +5,7 @@ import {
   Text
 } from 'react-native';
 import {connect} from 'react-redux';
-import {scale,getDeviceWidth,moderateScale, verticalScale} from '../config/sizeHelper'
-import { getRealmInstance } from '../realmDB/db';
+
 
 class Screen extends Component {
   constructor(props) {
@@ -17,7 +16,7 @@ class Screen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          {getRealmInstance().objects('User').length}
+          
         </Text>
         <Text style={styles.instructions}>
           Screen02
